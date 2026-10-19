@@ -51,13 +51,13 @@ function usePayment(id: PaymentId) {
 }
 const { payment, isLoading } = usePayment(id);   // destructure only what you need
 ```
-**Without `as const` a tuple return infers as `(boolean | (() => void))[]`** and destructuring loses the types ([TS Lesson 17](../../TypeScript/05-ecosystem/17-typescript-with-react.md)).
+**Without `as const` a tuple return infers as `(boolean | (() => void))[]`** and destructuring loses the types ([TS Lesson 17](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/05-ecosystem/17-typescript-with-react.md)).
 
 ---
 
 ## 3. What makes a *good* custom hook
 
-This is the judgement half, and it's [API Lesson 01](../../API/01-foundations/01-what-an-api-really-is.md) again: **a hook is an API, so design the contract.**
+This is the judgement half, and it's [API Lesson 01](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/01-what-an-api-really-is.md) again: **a hook is an API, so design the contract.**
 
 ### Rule 1 — One concern
 ```tsx

@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** reads are forgiving — a stale read corrects itself on the next fetch. **Writes aren't.** A mutation that double-fires charges a customer twice; an optimistic update without rollback shows a refund that never happened. This lesson covers the write path end to end, and it's where the React track and the API track meet most directly: idempotency keys, error contracts, and rollback all cross the boundary.
 
-**Time:** ~70 minutes · **Prereq:** Lesson 17 · [API Lesson 18](../../API/04-production/18-reliability-and-idempotency.md)
+**Time:** ~70 minutes · **Prereq:** Lesson 17 · [API Lesson 18](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/18-reliability-and-idempotency.md)
 
 ---
 
@@ -50,14 +50,14 @@ const refund = useRefundPayment();
 
 **1. Invalidate everything the write touched.** A refund changes the payment, every list containing it, and the balance. Forgetting the balance means the user sees an unchanged number and thinks the refund didn't work. **Write down the blast radius of every mutation** — it's the part people miss.
 
-**2. Branch on the error `code`, not the message.** `already_refunded` is a specific, recoverable condition from your API contract ([API Lesson 10](../../API/02-rest-design/10-errors-and-problem-details.md)) — and it tells you your cache was stale, so refetch.
+**2. Branch on the error `code`, not the message.** `already_refunded` is a specific, recoverable condition from your API contract ([API Lesson 10](https://github.com/Pawar-Pratik/API-mastery/blob/main/02-rest-design/10-errors-and-problem-details.md)) — and it tells you your cache was stale, so refetch.
 
 **3. `mutate` vs `mutateAsync`:**
 ```tsx
 refund.mutate(input);                      // fire-and-forget; errors go to onError
 await refund.mutateAsync(input);           // returns a promise; YOU must catch it
 ```
-`mutateAsync` rejects on failure, so an uncaught one becomes an unhandled rejection ([TS Lesson 16](../../TypeScript/04-real-code/16-async-and-errors.md)). **Prefer `mutate` unless you genuinely need to await** — for example to close a modal only after success.
+`mutateAsync` rejects on failure, so an uncaught one becomes an unhandled rejection ([TS Lesson 16](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/04-real-code/16-async-and-errors.md)). **Prefer `mutate` unless you genuinely need to await** — for example to close a modal only after success.
 
 ---
 
@@ -231,7 +231,7 @@ await api.updatePayment(id, patch, { ifMatch: payment.version });   // API Lesso
 
 // (c) Disable the control while pending — weakest, but often enough
 ```
-**(b) is the correct answer for anything that matters**, and it's the client half of the lost-update problem from [API Lesson 09](../../API/02-rest-design/09-writes-patch-and-bulk.md): the server rejects a write based on stale data with a `412`, and the client re-reads and retries.
+**(b) is the correct answer for anything that matters**, and it's the client half of the lost-update problem from [API Lesson 09](https://github.com/Pawar-Pratik/API-mastery/blob/main/02-rest-design/09-writes-patch-and-bulk.md): the server rejects a write based on stale data with a `412`, and the client re-reads and retries.
 
 ```tsx
 onError: (err, input) => {
@@ -289,7 +289,7 @@ onError: (error, input, ctx) => {
 - Uses **`retryable`** to decide whether to suggest retrying
 - Surfaces **`requestId`** for unrecoverable errors, so a support ticket is answerable in one query
 
-That last one is the observability loop closing: the API returns `X-Request-Id` on every response ([API Lesson 20](../../API/04-production/20-observability.md)), and the UI shows it so the user can quote it.
+That last one is the observability loop closing: the API returns `X-Request-Id` on every response ([API Lesson 20](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/20-observability.md)), and the UI shows it so the user can quote it.
 
 ### Retries on mutations
 ```tsx

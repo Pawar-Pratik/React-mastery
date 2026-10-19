@@ -214,7 +214,7 @@ export function middleware(req: NextRequest) {
 }
 export const config = { matcher: ["/payments/:path*", "/settings/:path*"] };
 ```
-**Middleware is for cheap, coarse decisions** — redirects, rewrites, setting headers, A/B bucketing. It runs on *every* matched request, so heavy work there is a latency tax on the whole site. And **it isn't your authorization layer**: the real check belongs in the Server Component or Action that touches data ([API Lesson 15](../../API/03-security/15-authorization-and-multitenancy.md)).
+**Middleware is for cheap, coarse decisions** — redirects, rewrites, setting headers, A/B bucketing. It runs on *every* matched request, so heavy work there is a latency tax on the whole site. And **it isn't your authorization layer**: the real check belongs in the Server Component or Action that touches data ([API Lesson 15](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/15-authorization-and-multitenancy.md)).
 
 ```tsx
 // Metadata — static or generated

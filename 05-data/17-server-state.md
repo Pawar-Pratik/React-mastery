@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** the single biggest improvement most React codebases can make is recognising that **server data isn't state — it's a cache**, and treating it like `useState` means hand-rolling caching, deduplication, revalidation, retry and race-condition handling badly. This is also the lesson that retires the most common React pattern in existence: `useEffect` + `fetch`.
 
-**Time:** ~70 minutes · **Prereq:** Lesson 08 · [API Lesson 17](../../API/04-production/17-caching-and-performance.md)
+**Time:** ~70 minutes · **Prereq:** Lesson 08 · [API Lesson 17](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/17-caching-and-performance.md)
 
 ---
 
@@ -75,9 +75,9 @@ Ten problems, and you'll recognise most of them:
 4. **No deduplication** — three components needing the same payment make three requests
 5. **No revalidation** — the data goes stale and never updates
 6. **No retry** — one flaky network blip becomes a visible error
-7. **Doesn't check `res.ok`** — a 500 is parsed as JSON and set as data ([API Lesson 02](../../API/01-foundations/02-journey-of-a-request.md))
-8. **No validation** — `res.json()` is `any`; `payment!` is a lie ([TS Lesson 15](../../TypeScript/04-real-code/15-the-boundary-and-parsing.md))
-9. **Three separate states** — 8 representable combinations, 3 meaningful ([TS Lesson 09](../../TypeScript/03-type-level/09-illegal-states-unrepresentable.md))
+7. **Doesn't check `res.ok`** — a 500 is parsed as JSON and set as data ([API Lesson 02](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/02-journey-of-a-request.md))
+8. **No validation** — `res.json()` is `any`; `payment!` is a lie ([TS Lesson 15](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/04-real-code/15-the-boundary-and-parsing.md))
+9. **Three separate states** — 8 representable combinations, 3 meaningful ([TS Lesson 09](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/03-type-level/09-illegal-states-unrepresentable.md))
 10. **Every component repeats all of it**
 
 Fixing all ten by hand, in every component, is the work a query library already did.
@@ -139,7 +139,7 @@ Navigate to a payment you viewed 10 seconds ago:
   → a background refetch starts if stale
   → the UI updates silently if anything changed
 ```
-Same idea as HTTP's `stale-while-revalidate` ([API Lesson 17](../../API/04-production/17-caching-and-performance.md)), applied in the client. **This is the single biggest perceived-performance difference** between a query-library app and an effect-fetching one.
+Same idea as HTTP's `stale-while-revalidate` ([API Lesson 17](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/17-caching-and-performance.md)), applied in the client. **This is the single biggest perceived-performance difference** between a query-library app and an effect-fetching one.
 
 ### The defaults worth setting deliberately
 ```tsx
@@ -274,7 +274,7 @@ That's the most common query-library bug: a stale result served for new filters 
 | **TanStack Query** | Cache-first, framework-agnostic | **The default.** Richest feature set |
 | **SWR** | Smaller, simpler, same core idea | Lighter apps; Next.js-adjacent |
 | **RTK Query** | Built into Redux Toolkit | Teams already on Redux |
-| **Apollo / urql** | GraphQL, normalised cache | GraphQL backends ([API L21](../../API/05-beyond-rest/21-graphql.md)) |
+| **Apollo / urql** | GraphQL, normalised cache | GraphQL backends ([API L21](https://github.com/Pawar-Pratik/API-mastery/blob/main/05-beyond-rest/21-graphql.md)) |
 | **Router loaders** | Fetch on navigation | RR7 / TanStack Router / Remix — often *combined* with a query library |
 | **RSC + `use`** | Server fetches, no client cache | Next.js App Router ([Lesson 23](../07-server-react/23-rsc.md)) |
 

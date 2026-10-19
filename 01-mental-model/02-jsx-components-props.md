@@ -10,7 +10,7 @@
 
 > **A component's props are its public contract — design them so that wrong usage is impossible, not merely discouraged.**
 
-That's [API Lesson 01](../../API/01-foundations/01-what-an-api-really-is.md) at component scale, and it's the frame that makes every decision below obvious.
+That's [API Lesson 01](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/01-what-an-api-really-is.md) at component scale, and it's the frame that makes every decision below obvious.
 
 ---
 
@@ -46,7 +46,7 @@ That last rule causes a real, silent bug: a lowercase component name produces a 
 {count > 0 && <Badge count={count} />}      // ✅
 {items.length > 0 && <List items={items} />} // ✅ — .length is the classic offender
 ```
-**`0` is falsy but React renders it.** `false`, `null`, `undefined` and `true` render nothing; `0` and `NaN` render as text. This is the single most common JSX bug, and it's the same family as `||` vs `??` from [TS Lesson 03](../../TypeScript/01-foundations/03-types-as-sets.md).
+**`0` is falsy but React renders it.** `false`, `null`, `undefined` and `true` render nothing; `0` and `NaN` render as text. This is the single most common JSX bug, and it's the same family as `||` vs `??` from [TS Lesson 03](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/01-foundations/03-types-as-sets.md).
 
 ```tsx
 // Multi-branch: prefer an early return or a lookup over nested ternaries
@@ -61,7 +61,7 @@ function View({ state }: { state: Async<Payment> }) {
 ```tsx
 <div dangerouslySetInnerHTML={{ __html: sanitize(userContent) }} />
 ```
-The name is deliberately ugly. It bypasses React's escaping and is a direct XSS vector. **If you use it, the input must be a `SafeHtml` branded type** ([TS Lesson 09](../../TypeScript/03-type-level/09-illegal-states-unrepresentable.md)) produced by a sanitiser — so the type system proves it was sanitised.
+The name is deliberately ugly. It bypasses React's escaping and is a direct XSS vector. **If you use it, the input must be a `SafeHtml` branded type** ([TS Lesson 09](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/03-type-level/09-illegal-states-unrepresentable.md)) produced by a sanitiser — so the type system proves it was sanitised.
 
 ### What JSX doesn't do
 ```tsx
@@ -122,7 +122,7 @@ function Button({ variant, loading, ...rest }: ButtonProps) {
 function Button({ variant = "primary" }: Props) {}          // ✅ destructuring default
 Button.defaultProps = { variant: "primary" };                // ❌ deprecated for functions in React 19
 ```
-Note the subtlety from [TS Lesson 05](../../TypeScript/02-type-system/05-functions-and-overloads.md): a destructuring default fires on `undefined`, **not** on `null`. `<Button variant={null} />` gives you `null`, not `"primary"`.
+Note the subtlety from [TS Lesson 05](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/02-type-system/05-functions-and-overloads.md): a destructuring default fires on `undefined`, **not** on `null`. `<Button variant={null} />` gives you `null`, not `"primary"`.
 
 ---
 
@@ -152,7 +152,7 @@ This is the part that matters. Six rules.
   </Modal.Footer>
 </Modal>
 ```
-**The test:** when a new requirement arrives ("the footer needs a checkbox"), does the component need changing? With configuration, yes — forever. With composition, no. That's the same "can you remove anything?" minimality test from [API Lesson 01](../../API/01-foundations/01-what-an-api-really-is.md).
+**The test:** when a new requirement arrives ("the footer needs a checkbox"), does the component need changing? With configuration, yes — forever. With composition, no. That's the same "can you remove anything?" minimality test from [API Lesson 01](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/01-what-an-api-really-is.md).
 
 **When configuration *is* right:** a genuinely closed set of options (`variant="primary" | "danger"`), and design-system primitives where constraint is the point.
 
@@ -170,7 +170,7 @@ type Props = { href?: string; onClick?: () => void };
 // ✅ XOR — exactly one
 type Props = XOR<{ href: string }, { onClick: () => void }>;
 ```
-Straight from [TS Lesson 09](../../TypeScript/03-type-level/09-illegal-states-unrepresentable.md). **Count representable prop combinations vs meaningful ones** — the gap is where support tickets come from.
+Straight from [TS Lesson 09](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/03-type-level/09-illegal-states-unrepresentable.md). **Count representable prop combinations vs meaningful ones** — the gap is where support tickets come from.
 
 ### Rule 3 — Boolean props don't scale
 ```tsx
@@ -316,7 +316,7 @@ State ownership, reuse, **different re-render cadence**, needing a `key`, and be
 `<Foo />` creates an element whose `type` is the function — React manages it, so it gets its own fiber, state, hooks and a place in DevTools. `Foo()` calls it immediately and inlines the result into the parent, so it has none of those. Looks identical, breaks the moment `Foo` uses a hook.
 
 **Q7. "How do you type a component that wraps a native element?"**
-`React.ComponentPropsWithoutRef<"button"> & { yourProps }`, then destructure yours and spread the rest. `Omit` first if you're overriding a native prop's type ([TS Lesson 17](../../TypeScript/05-ecosystem/17-typescript-with-react.md)).
+`React.ComponentPropsWithoutRef<"button"> & { yourProps }`, then destructure yours and spread the rest. `Omit` first if you're overriding a native prop's type ([TS Lesson 17](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/05-ecosystem/17-typescript-with-react.md)).
 
 **Q8. "Two props are mutually exclusive. How do you enforce it?"**
 `XOR<A, B>` at the type level so it's a compile error at the call site — better than a runtime `if` or a PropTypes warning, because it's caught where the mistake is made.

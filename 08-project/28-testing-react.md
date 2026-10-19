@@ -139,7 +139,7 @@ test("shows the decline reason when the card is declined", async () => {
 });
 ```
 
-**Generate handlers from your OpenAPI spec** where you can — then a backend contract change breaks your tests rather than production ([API L25](../../API/06-craft/25-openapi-contract-first.md)).
+**Generate handlers from your OpenAPI spec** where you can — then a backend contract change breaks your tests rather than production ([API L25](https://github.com/Pawar-Pratik/API-mastery/blob/main/06-craft/25-openapi-contract-first.md)).
 
 ---
 

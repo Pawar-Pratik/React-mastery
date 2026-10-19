@@ -299,7 +299,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: `Receipt ${receipt?.id}`, openGraph: { title: "Your receipt from Ledger" } };
 }
 ```
-**Note the token design:** a signed, single-purpose, expiring token in the path rather than a session — because the recipient has no account. That's an API-design decision ([API Lesson 12](../../API/03-security/12-authentication-landscape.md)) driving a rendering decision.
+**Note the token design:** a signed, single-purpose, expiring token in the path rather than a session — because the recipient has no account. That's an API-design decision ([API Lesson 12](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/12-authentication-landscape.md)) driving a rendering decision.
 
 ---
 

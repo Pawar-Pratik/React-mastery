@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** forms are where everything meets — state, validation, accessibility, async submission, error handling, and performance. They're also where React's story changed most in v19, with Actions and `useActionState` making the idiomatic answer genuinely different from what most tutorials teach. And *"build a form with validation"* is one of the most common machine-coding round prompts.
 
-**Time:** ~70 minutes · **Prereq:** Lessons 05, 13 · [TS Lesson 15](../../TypeScript/04-real-code/15-the-boundary-and-parsing.md)
+**Time:** ~70 minutes · **Prereq:** Lessons 05, 13 · [TS Lesson 15](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/04-real-code/15-the-boundary-and-parsing.md)
 
 ---
 
@@ -10,7 +10,7 @@
 
 > **A form is a boundary — untrusted strings in, validated domain values out — so the schema that validates it should also be the type that describes it.**
 
-That's "parse, don't validate" ([TS Lesson 15](../../TypeScript/04-real-code/15-the-boundary-and-parsing.md)) applied to the UI, and it's why schema-driven forms won.
+That's "parse, don't validate" ([TS Lesson 15](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/04-real-code/15-the-boundary-and-parsing.md)) applied to the UI, and it's why schema-driven forms won.
 
 ---
 
@@ -137,7 +137,7 @@ type FormOutput = z.output<typeof RefundSchema>;    // { amount: number; ... }  
 2. Client-side schema    instant feedback, good UX
 3. Server-side schema    ← THE ONLY ONE THAT'S SECURITY
 ```
-**Client validation is UX; server validation is security.** Anyone can `curl` your endpoint. Never skip #3 ([API Lesson 16](../../API/03-security/16-owasp-and-hardening.md)).
+**Client validation is UX; server validation is security.** Anyone can `curl` your endpoint. Never skip #3 ([API Lesson 16](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/16-owasp-and-hardening.md)).
 
 ### When to validate — the UX rule
 ```tsx

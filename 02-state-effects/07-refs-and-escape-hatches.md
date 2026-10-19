@@ -130,7 +130,7 @@ function usePaymentStream(onPayment: (p: Payment) => void) {
 
 **This pattern is the answer to "my effect reconnects on every render".** It separates *what the effect depends on* (nothing — the URL) from *what it calls* (the latest handler). Points worth knowing:
 - Use `useLayoutEffect` (or assign during render — see below) so the ref is updated before any child effect could fire the callback.
-- This is what React's proposed `useEffectEvent` formalises. Until it ships, the ref pattern is the idiomatic version, and you'll see it in every serious library.
+- **React 19.2 shipped `useEffectEvent`**, which formalises exactly this: a function that always sees the latest props and state but is deliberately *non-reactive*, so it never belongs in a dependency array. Prefer it on 19.2+; the ref pattern below is the hand-rolled equivalent for older versions, and you'll still meet it in every serious library — know both.
 
 ```tsx
 // The reusable hook — put this in your utils
@@ -280,7 +280,7 @@ Without `flushSync`, the state update is batched and the DOM isn't updated yet w
 | Latest `onPaymentReceived` handler for the stream | the latest-ref pattern (§3) |
 | Idempotency key for an in-flight refund | `useRef<IdempotencyKey>` — stable across re-renders, not rendered |
 
-That last one is worth pausing on: the idempotency key from [API Lesson 18](../../API/04-production/18-reliability-and-idempotency.md) must be **the same value across retries** but must **not** cause a re-render. A ref is exactly right — generate it once when the user opens the refund modal, reuse it on every retry, and reset it when they start a new refund.
+That last one is worth pausing on: the idempotency key from [API Lesson 18](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/18-reliability-and-idempotency.md) must be **the same value across retries** but must **not** cause a re-render. A ref is exactly right — generate it once when the user opens the refund modal, reuse it on every retry, and reset it when they start a new refund.
 
 ```tsx
 function useIdempotencyKey(resetOn: unknown) {
@@ -325,7 +325,7 @@ Three cases: DOM access (focus, measure, scroll, media, canvas, third-party libr
 Render must be pure and may be called twice (StrictMode) or abandoned (concurrent). A ref read or mutated during render gets an unpredictable value and makes the render impure. The one documented exception is lazy initialisation, because it's idempotent.
 
 **Q4. "My effect reconnects a WebSocket on every render. Fix it."**
-The callback prop is a new function each render and it's in the deps. Use the **latest-ref pattern**: store the handler in a ref updated in a `useLayoutEffect`, subscribe once with `[]`, and call `ref.current(...)` inside. Mention that this is what `useEffectEvent` is designed to formalise.
+The callback prop is a new function each render and it's in the deps. Use the **latest-ref pattern**: store the handler in a ref updated in a `useLayoutEffect`, subscribe once with `[]`, and call `ref.current(...)` inside. Mention that React 19.2 ships `useEffectEvent` for exactly this case, and that the latest-ref pattern is the same idea written by hand — naming both is the senior answer.
 
 **Q5. "What's a callback ref and when is it better?"**
 A function passed as `ref` that React calls with the node on mount and `null` on unmount. Better when you need to *react* to the node appearing — measuring, scrolling into view, initialising a library — because a `useRef` gives you no notification of when it was set.

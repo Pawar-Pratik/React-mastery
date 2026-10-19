@@ -73,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 Three things in there that matter:
 
-**1. The undefined-default + throwing-hook pattern.** The alternative — a fake default object — means a missing provider renders silently broken UI instead of failing loudly at first use. Always do it this way ([TS Lesson 17](../../TypeScript/05-ecosystem/17-typescript-with-react.md)).
+**1. The undefined-default + throwing-hook pattern.** The alternative — a fake default object — means a missing provider renders silently broken UI instead of failing loudly at first use. Always do it this way ([TS Lesson 17](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/05-ecosystem/17-typescript-with-react.md)).
 
 **2. `useMemo` on the value is mandatory.** Without it, `{ principal, login, logout }` is a new object every render of the provider, so **every consumer re-renders on every provider render** regardless of whether anything changed.
 

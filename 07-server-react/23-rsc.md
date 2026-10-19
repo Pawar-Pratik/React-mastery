@@ -176,7 +176,7 @@ export default async function Page() {
   return <PaymentsTable payments={payments} />;
 }
 ```
-No fetch, no API route, no serialization boundary to design, no client-side loading state. **And the caveat that matters:** you still need real authorization here ([API Lesson 15](../../API/03-security/15-authorization-and-multitenancy.md)) — `merchantId` must come from the verified session, never from a param. RSC removes the HTTP layer; it doesn't remove the security requirements.
+No fetch, no API route, no serialization boundary to design, no client-side loading state. **And the caveat that matters:** you still need real authorization here ([API Lesson 15](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/15-authorization-and-multitenancy.md)) — `merchantId` must come from the verified session, never from a param. RSC removes the HTTP layer; it doesn't remove the security requirements.
 
 ### 3. No client/server waterfall
 ```
@@ -238,7 +238,7 @@ const [state, formAction, isPending] = useActionState(refundPayment, { status: "
 
 > **The security point is the one to lead with in an interview:** *"a Server Action is a public HTTP endpoint with a generated ID. Anyone can call it with any arguments. So every action must authenticate, authorize, and validate its inputs exactly like a REST endpoint — and the tenant scope must come from the session, never from a parameter. The `"use server"` directive is not a security boundary; it's a transport mechanism."*
 
-That's [API Lesson 15](../../API/03-security/15-authorization-and-multitenancy.md)'s BOLA discussion, applied to a new transport. The vulnerability is identical; only the syntax changed.
+That's [API Lesson 15](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/15-authorization-and-multitenancy.md)'s BOLA discussion, applied to a new transport. The vulnerability is identical; only the syntax changed.
 
 **Other practical notes:** actions are serial by default (one at a time per form), arguments must be serializable, and they can't return non-serializable values. `revalidatePath`/`revalidateTag` is how you tell the server cache that data changed — the RSC equivalent of `invalidateQueries` ([Lesson 18](../05-data/18-mutations-and-optimistic.md)).
 

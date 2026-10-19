@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** real-time is where the effect model, the cache and the network all meet, and it's where hand-rolled code goes wrong in ways that only show up in production — duplicate connections after a fast refresh, memory leaks from missed cleanup, events applied out of order, and a cache that drifts from the server after a reconnect. The React half is mostly about **integrating with the cache instead of maintaining a second copy of the data.**
 
-**Time:** ~60 minutes · **Prereq:** Lessons 08, 17 · [API Lesson 23](../../API/05-beyond-rest/23-realtime-and-webhooks.md)
+**Time:** ~60 minutes · **Prereq:** Lessons 08, 17 · [API Lesson 23](https://github.com/Pawar-Pratik/API-mastery/blob/main/05-beyond-rest/23-realtime-and-webhooks.md)
 
 ---
 
@@ -14,7 +14,7 @@
 
 ## 2. Choosing the mechanism
 
-The decision tree from [API Lesson 23](../../API/05-beyond-rest/23-realtime-and-webhooks.md), applied client-side:
+The decision tree from [API Lesson 23](https://github.com/Pawar-Pratik/API-mastery/blob/main/05-beyond-rest/23-realtime-and-webhooks.md), applied client-side:
 
 ```
 Do you need to SEND at low latency too?
@@ -29,7 +29,7 @@ Is a few seconds of delay fine, or is the volume tiny?
 ```tsx
 useQuery({ queryKey: paymentKeys.detail(id), queryFn: ..., refetchInterval: 5_000 });
 ```
-Stateless, works through every proxy, no reconnection logic, and with `ETag`/`304` an empty poll costs ~150 bytes ([API Lesson 17](../../API/04-production/17-caching-and-performance.md)). The argument against it is arithmetic: 10,000 clients at 0.5 Hz is 5,000 req/s. **Measure before adding a connection.**
+Stateless, works through every proxy, no reconnection logic, and with `ETag`/`304` an empty poll costs ~150 bytes ([API Lesson 17](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/17-caching-and-performance.md)). The argument against it is arithmetic: 10,000 clients at 0.5 Hz is 5,000 req/s. **Measure before adding a connection.**
 
 ```tsx
 // Smart polling — stop when there's nothing to watch
@@ -93,7 +93,7 @@ export function usePaymentStream() {
 
 3. **Update the cache, don't hold a second copy.** The stream's job is to keep the cache correct. Components keep reading `usePayment(id)` and get updates automatically — **no component needs to know the stream exists.** That's the architectural point of this lesson.
 
-4. **Unknown event types are ignored.** The server will add event types; a client that throws on an unrecognised one breaks on the next backend deploy ([API Lesson 11](../../API/02-rest-design/11-versioning-and-evolution.md)).
+4. **Unknown event types are ignored.** The server will add event types; a client that throws on an unrecognised one breaks on the next backend deploy ([API Lesson 11](https://github.com/Pawar-Pratik/API-mastery/blob/main/02-rest-design/11-versioning-and-evolution.md)).
 
 ### Resume and gap detection
 ```tsx
@@ -123,7 +123,7 @@ onEvent(event => {
 |---|---|
 | **HTTP/1.1's 6-connection limit** — an SSE stream holds one permanently | Serve over **HTTP/2**. Two tabs with three streams each will otherwise deadlock |
 | **Proxies buffer the stream** | `X-Accel-Buffering: no` server-side; heartbeats keep it open |
-| **No custom headers** — `EventSource` can't set `Authorization` | Cookie auth, or a short-lived ticket in the query string ([API L23](../../API/05-beyond-rest/23-realtime-and-webhooks.md)) |
+| **No custom headers** — `EventSource` can't set `Authorization` | Cookie auth, or a short-lived ticket in the query string ([API L23](https://github.com/Pawar-Pratik/API-mastery/blob/main/05-beyond-rest/23-realtime-and-webhooks.md)) |
 | **Auto-reconnect is relentless** | If the server is down it retries forever; add your own backoff by closing and reopening |
 
 ---
@@ -185,7 +185,7 @@ export function useWebSocket(url: string, onMessage: (m: ServerMessage) => void)
 
 **The four things hand-rolled WebSocket code usually gets wrong:**
 
-1. **Reconnection without jitter.** When a server restarts, every client reconnects simultaneously and re-kills it. **Full jitter** (`random(0, cap)`) spreads them out — the same fix as [API Lesson 18](../../API/04-production/18-reliability-and-idempotency.md).
+1. **Reconnection without jitter.** When a server restarts, every client reconnects simultaneously and re-kills it. **Full jitter** (`random(0, cap)`) spreads them out — the same fix as [API Lesson 18](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/18-reliability-and-idempotency.md).
 2. **No heartbeat.** Intermediaries silently kill idle connections and TCP won't tell you for minutes. Ping every 30s; treat a missed pong as dead.
 3. **Auth in the URL.** `wss://api/ws?token=...` puts a credential in a URL that gets logged everywhere. Use a cookie, or authenticate with the first message, or a short-lived single-use ticket.
 4. **No cleanup guard.** Without the `closed` flag, the cleanup runs but a queued reconnect timer still fires — reconnecting a component that unmounted.
@@ -292,7 +292,7 @@ function ConnectionBadge() {
 | **Live payment feed** | SSE, one app-wide connection | One-way, text, auto-reconnect with resume |
 | **A single pending payment's status** | Polling, 3s, stops at a terminal state | Simpler than subscribing per row |
 | **Webhook delivery attempts** | Polling, 5s, only while the page is open | Low volume, page-scoped |
-| **Balance** | Invalidated by payment events + a 30s poll | Money must be exact ([API L17](../../API/04-production/17-caching-and-performance.md)) |
+| **Balance** | Invalidated by payment events + a 30s poll | Money must be exact ([API L17](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/17-caching-and-performance.md)) |
 | **Toasts for events** | Derived from the same SSE stream | No second connection |
 
 ```tsx
@@ -356,7 +356,7 @@ It's stateless, works through every proxy, needs no reconnection logic, degrades
 StrictMode's double-invoke, checking that setup and cleanup are symmetrical. If closing the connection in cleanup fixes it, the effect was correct all along. **The wrong response is disabling StrictMode** — it would also double on fast refresh and real remounts.
 
 **Q5. "Events arrive out of order. What breaks and how do you fix it?"**
-A slow `payment.created` landing after `payment.succeeded` reverts the UI to "pending". Fix: compare a version or sequence number before applying, and ignore anything older. The server explicitly doesn't guarantee ordering ([API L23](../../API/05-beyond-rest/23-realtime-and-webhooks.md)) — this is how the client honours that.
+A slow `payment.created` landing after `payment.succeeded` reverts the UI to "pending". Fix: compare a version or sequence number before applying, and ignore anything older. The server explicitly doesn't guarantee ordering ([API L23](https://github.com/Pawar-Pratik/API-mastery/blob/main/05-beyond-rest/23-realtime-and-webhooks.md)) — this is how the client honours that.
 
 **Q6. "What happens after a disconnect?"**
 Reconnect with exponential backoff and **full jitter**, resume via `Last-Event-ID` if the server supports replay, and **invalidate the cache on reconnect regardless** — you can't prove the replay covered the whole gap. That last step makes the system self-healing.

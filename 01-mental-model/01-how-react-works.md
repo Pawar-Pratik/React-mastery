@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** most people learn React as "components and hooks" and build their mental model from what happens to work. That model breaks the first time something surprising happens, and there's nothing underneath to reason from. This lesson gives you the machine: what React *is*, what a component actually returns, and what reconciliation does — so that every later behaviour is derivable rather than memorised.
 
-**Time:** ~55 minutes · **Prereq:** JavaScript, and ideally the [TypeScript track](../../TypeScript/README.md)
+**Time:** ~55 minutes · **Prereq:** JavaScript, and ideally the [TypeScript track](https://github.com/Pawar-Pratik/TypeScript-mastery)
 
 ---
 

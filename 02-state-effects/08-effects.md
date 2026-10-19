@@ -324,7 +324,7 @@ useEffect(() => {
 }, [roomId]);                                    // ✅ honest deps, no reconnect on every render
 ```
 
-**Fix 4 is the important one**, and it's precisely the "reads vs reacts to" distinction. The effect *reads* `onMessage` but shouldn't *re-synchronize* when it changes. React's proposed `useEffectEvent` formalises exactly this; until it ships, the ref pattern is the idiom.
+**Fix 4 is the important one**, and it's precisely the "reads vs reacts to" distinction. The effect *reads* `onMessage` but shouldn't *re-synchronize* when it changes. React 19.2 ships `useEffectEvent`, which formalises exactly this — an Effect Event is *read*, never *reacted to*, so the linter bans it from dependency arrays by design. Prefer it on 19.2+; the ref pattern is the same thing by hand, and what you'll find in existing codebases.
 
 ### Empty dependencies
 ```tsx

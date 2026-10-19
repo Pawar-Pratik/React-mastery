@@ -3,6 +3,9 @@
 > The goal is not "I can build components."
 > The goal is: **you know exactly why the UI re-rendered, why that effect ran twice, and why the input lost focus** — and you can fix each at the right layer instead of guessing.
 
+**Part of [The Legend Track](https://github.com/Pawar-Pratik/The-Legend-Track)** — the four-track path.
+Sibling tracks: [APIs & REST](https://github.com/Pawar-Pratik/API-mastery) · [TypeScript](https://github.com/Pawar-Pratik/TypeScript-mastery) · [Spring Boot](https://github.com/Pawar-Pratik/SpringBoot)
+
 ---
 
 ## Why most React knowledge is shallow
@@ -45,7 +48,7 @@ Internalise those five and React becomes predictable.
 
 ## The project: **Ledger Console**
 
-The merchant dashboard for the [Ledger API](../API/README.md), typed with the [TypeScript track's](../TypeScript/README.md) shared layer.
+The merchant dashboard for the [Ledger API](https://github.com/Pawar-Pratik/API-mastery), typed with the [TypeScript track's](https://github.com/Pawar-Pratik/TypeScript-mastery) shared layer.
 
 - A payments table over **4M rows** — virtualized, filterable, cursor-paginated, URL-synced
 - A **live payment feed** over SSE

@@ -269,7 +269,7 @@ function Text<E extends React.ElementType = "span">(
 <Text as="button" href="/x" />                   // ❌ compile error
 ```
 
-Genuinely valuable in a design system — one `Text` component serving `<p>`, `<span>`, `<h1>` and `<a>` with correct semantics and correct types. **Real cost:** the types are gnarly, error messages get worse, and the compiler works harder. **Build it once in a shared package; don't reach for it in feature code** ([TS Lesson 17](../../TypeScript/05-ecosystem/17-typescript-with-react.md)).
+Genuinely valuable in a design system — one `Text` component serving `<p>`, `<span>`, `<h1>` and `<a>` with correct semantics and correct types. **Real cost:** the types are gnarly, error messages get worse, and the compiler works harder. **Build it once in a shared package; don't reach for it in feature code** ([TS Lesson 17](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/05-ecosystem/17-typescript-with-react.md)).
 
 A lighter alternative worth knowing — Radix's `asChild`:
 ```tsx

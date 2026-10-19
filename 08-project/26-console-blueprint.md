@@ -1,6 +1,6 @@
 # Lesson 26 — Ledger Console blueprint
 
-> **Why this lesson exists:** twenty-five lessons of technique need somewhere to land. **Ledger Console** is the merchant dashboard for the [Ledger API](../../API/README.md), typed with the [TypeScript track's](../../TypeScript/README.md) shared layer. Every feature exists because it forces a concept you've learned — and the result is one hosted product you can demo, which turns every interview answer from *"I think you'd probably…"* into *"here's how I handled that."*
+> **Why this lesson exists:** twenty-five lessons of technique need somewhere to land. **Ledger Console** is the merchant dashboard for the [Ledger API](https://github.com/Pawar-Pratik/API-mastery), typed with the [TypeScript track's](https://github.com/Pawar-Pratik/TypeScript-mastery) shared layer. Every feature exists because it forces a concept you've learned — and the result is one hosted product you can demo, which turns every interview answer from *"I think you'd probably…"* into *"here's how I handled that."*
 
 **Time:** ~50 minutes to read and internalise · **Prereq:** Modules 1–7
 
@@ -31,15 +31,15 @@ A merchant-facing dashboard: view and filter payments at scale, issue refunds, m
 
 | The product forces… | …which teaches |
 |---|---|
-| 4 million payments per merchant | **Virtualization** + cursor pagination ([L21](../06-performance/21-render-performance.md), [API L08](../../API/02-rest-design/08-collections-and-pagination.md)) |
+| 4 million payments per merchant | **Virtualization** + cursor pagination ([L21](../06-performance/21-render-performance.md), [API L08](https://github.com/Pawar-Pratik/API-mastery/blob/main/02-rest-design/08-collections-and-pagination.md)) |
 | Search-as-you-type over that table | **Transitions, deferred values, race handling** ([L11](../03-hooks/11-concurrent-hooks.md), [L08](../02-state-effects/08-effects.md)) |
 | Filters you can send to a colleague | **URL as state** ([L16](../04-composition/16-routing-and-architecture.md)) |
-| Refunds must never double-fire | **State machine + idempotency key** ([L06](../02-state-effects/06-reducers-and-state-machines.md), [API L18](../../API/04-production/18-reliability-and-idempotency.md)) |
+| Refunds must never double-fire | **State machine + idempotency key** ([L06](../02-state-effects/06-reducers-and-state-machines.md), [API L18](https://github.com/Pawar-Pratik/API-mastery/blob/main/04-production/18-reliability-and-idempotency.md)) |
 | Refunds must feel instant, and roll back | **Optimistic updates** ([L18](../05-data/18-mutations-and-optimistic.md)) |
 | Payments arriving while you watch | **SSE → cache integration** ([L19](../05-data/19-realtime.md)) |
 | A chart that must not block the table | **Suspense boundaries + code splitting** ([L15](../04-composition/15-boundaries-suspense-portals.md), [L22](../06-performance/22-loading-performance.md)) |
 | A broken chart must not hide payments | **Error boundary placement** ([L15](../04-composition/15-boundaries-suspense-portals.md)) |
-| Tokens expiring mid-session | **Refresh-and-retry** ([API L13](../../API/03-security/13-sessions-and-jwt.md)) |
+| Tokens expiring mid-session | **Refresh-and-retry** ([API L13](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/13-sessions-and-jwt.md)) |
 | Keyboard and screen-reader users | **A11y in a virtualized grid** ([L21](../06-performance/21-render-performance.md), [L14](../04-composition/14-forms.md)) |
 
 ---
@@ -201,7 +201,7 @@ async function withAuth<T>(req: () => Promise<Response>): Promise<T> {
   return ResponseSchema.parse(await res.json());          // parse, don't assume
 }
 ```
-**The single-flight refresh is the detail that matters:** without it, five concurrent 401s trigger five refreshes, and with rotating refresh tokens ([API L13](../../API/03-security/13-sessions-and-jwt.md)) four of them are *reuse detections* that log the user out. That bug is subtle, common, and a great thing to have encountered.
+**The single-flight refresh is the detail that matters:** without it, five concurrent 401s trigger five refreshes, and with rotating refresh tokens ([API L13](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/13-sessions-and-jwt.md)) four of them are *reuse detections* that log the user out. That bug is subtle, common, and a great thing to have encountered.
 
 ---
 
@@ -246,10 +246,10 @@ CORRECTNESS
 | Table | TanStack Virtual | 4M rows ([L21](../06-performance/21-render-performance.md)) |
 | Forms | RHF + Zod; Actions for simple ones | Uncontrolled = no re-render per keystroke ([L14](../04-composition/14-forms.md)) |
 | Components | Radix primitives, styled in-house | Focus management is weeks of work to get right ([L13](../04-composition/13-composition-patterns.md)) |
-| Types | Generated from `openapi.yaml` | A backend contract change becomes a **compile error** ([API L25](../../API/06-craft/25-openapi-contract-first.md)) |
-| Validation | Zod at every boundary | Types are erased; the API can lie ([TS L15](../../TypeScript/04-real-code/15-the-boundary-and-parsing.md)) |
+| Types | Generated from `openapi.yaml` | A backend contract change becomes a **compile error** ([API L25](https://github.com/Pawar-Pratik/API-mastery/blob/main/06-craft/25-openapi-contract-first.md)) |
+| Validation | Zod at every boundary | Types are erased; the API can lie ([TS L15](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/04-real-code/15-the-boundary-and-parsing.md)) |
 | Real-time | SSE, one connection | One-way, auto-reconnect with resume ([L19](../05-data/19-realtime.md)) |
-| Auth | Access token in memory + `HttpOnly` refresh cookie | XSS can't read it; CSRF blunted by `SameSite` ([API L13](../../API/03-security/13-sessions-and-jwt.md)) |
+| Auth | Access token in memory + `HttpOnly` refresh cookie | XSS can't read it; CSRF blunted by `SameSite` ([API L13](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/13-sessions-and-jwt.md)) |
 | Testing | RTL + MSW + Playwright | Behaviour, not implementation ([L28](28-testing-react.md)) |
 
 ### The five things you'll be able to say in an interview

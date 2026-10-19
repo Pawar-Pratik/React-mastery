@@ -31,7 +31,7 @@ Everything in that URL is state. Putting it in `useState` instead costs you five
 
 **What belongs in the URL:** the current route, resource IDs, filters, sort order, pagination cursor, the active tab, search queries, and open-modal state *if the modal is linkable* (a payment detail panel, yes; a confirm dialog, no).
 
-**What doesn't:** in-progress form drafts, hover state, transient UI (a dropdown being open), and anything containing PII or secrets — **URLs are logged at every hop** ([API Lesson 02](../../API/01-foundations/02-journey-of-a-request.md)).
+**What doesn't:** in-progress form drafts, hover state, transient UI (a dropdown being open), and anything containing PII or secrets — **URLs are logged at every hop** ([API Lesson 02](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/02-journey-of-a-request.md)).
 
 ```tsx
 // The idiomatic hook — a typed wrapper over URLSearchParams
@@ -351,7 +351,7 @@ Around 30 components. After that, every feature is smeared across four folders �
 Give it a route: `/payments/:id/refund` rendered in an `<Outlet />` so the underlying page stays mounted. It becomes shareable, refresh-proof, and closable with the back button. **The three product wins from one routing decision.**
 
 **Q6. "How do you handle auth-protected routes?"**
-A layout route that checks the principal and `<Navigate to="/login" state={{ from: location }} replace />`. `replace` so the protected URL doesn't sit in history; `state.from` so login can return them. And the crucial caveat: **client-side guards are UX, not security** — the API must authorize every request regardless ([API Lesson 15](../../API/03-security/15-authorization-and-multitenancy.md)).
+A layout route that checks the principal and `<Navigate to="/login" state={{ from: location }} replace />`. `replace` so the protected URL doesn't sit in history; `state.from` so login can return them. And the crucial caveat: **client-side guards are UX, not security** — the API must authorize every request regardless ([API Lesson 15](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/15-authorization-and-multitenancy.md)).
 
 **Q7. "React Router or TanStack Router or Next.js?"**
 Next.js for full-stack and SSR. TanStack Router for TypeScript-heavy SPAs wanting typed params and search validation. React Router 7 for everything else — the most common, and its data mode gives you loaders. Decide by whether you need a server, and how much you value typed routes.

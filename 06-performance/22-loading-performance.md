@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** render performance is what users feel *after* the app loads. Loading performance is whether they wait around to find out — and for most real applications it's the bigger problem. It's also measurable against public thresholds (Core Web Vitals), tied to search ranking, and the area where a single decision like "we imported all of `lodash`" costs more than a month of memoization.
 
-**Time:** ~70 minutes · **Prereq:** Lesson 20 · [API Lesson 02](../../API/01-foundations/02-journey-of-a-request.md)
+**Time:** ~70 minutes · **Prereq:** Lesson 20 · [API Lesson 02](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/02-journey-of-a-request.md)
 
 ---
 
@@ -116,7 +116,7 @@ const RefundModal = lazy(() => import("./RefundModal"));
 <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="modulepreload" href="/assets/vendor.js">
 ```
-`preconnect` to your API origin removes DNS + TCP + TLS from the critical path of the first API call — 100–300ms on mobile, for one line ([API Lesson 02](../../API/01-foundations/02-journey-of-a-request.md)).
+`preconnect` to your API origin removes DNS + TCP + TLS from the critical path of the first API call — 100–300ms on mobile, for one line ([API Lesson 02](https://github.com/Pawar-Pratik/API-mastery/blob/main/01-foundations/02-journey-of-a-request.md)).
 
 ### The splitting mistakes
 ```tsx

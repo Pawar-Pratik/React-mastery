@@ -2,7 +2,7 @@
 
 > **Why this lesson exists:** `useState` is fine for independent values and becomes a liability the moment state has *rules*. Most React codebases express those rules as scattered `if` statements across a dozen handlers, and the bugs that result — a spinner that never stops, a form you can submit twice, a modal showing stale data — are all the same bug: **state that permits combinations nobody intended.** A reducer plus a discriminated union makes those combinations unrepresentable.
 
-**Time:** ~60 minutes · **Prereq:** Lesson 05 · [TS Lesson 09](../../TypeScript/03-type-level/09-illegal-states-unrepresentable.md)
+**Time:** ~60 minutes · **Prereq:** Lesson 05 · [TS Lesson 09](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/03-type-level/09-illegal-states-unrepresentable.md)
 
 ---
 
@@ -160,7 +160,7 @@ function refundReducer(state: RefundState, action: RefundAction): RefundState {
 
 > **Say this in an interview:** *"I switch on state first, then action — so an action that's illegal in the current state simply doesn't have a case, which means double-submit isn't something I guard against with a disabled button, it's something that can't happen. A disabled button is a UI affordance; the reducer is the invariant."*
 
-And note the connection to the API track: [API Lesson 09](../../API/02-rest-design/09-writes-patch-and-bulk.md) puts the same guard in SQL (`WHERE status = 'requires_capture'`). **Same invariant, enforced at both ends, neither trusting the other.**
+And note the connection to the API track: [API Lesson 09](https://github.com/Pawar-Pratik/API-mastery/blob/main/02-rest-design/09-writes-patch-and-bulk.md) puts the same guard in SQL (`WHERE status = 'requires_capture'`). **Same invariant, enforced at both ends, neither trusting the other.**
 
 ### Rendering a state machine
 ```tsx
@@ -326,7 +326,7 @@ React may call it twice in StrictMode to surface impurity, and purity is what ma
 Outside the reducer: `dispatch("submit")` → `await api.x()` → `dispatch("succeeded"|"failed")`. The reducer only receives events. If the flow is complex enough that this becomes unwieldy, that's the signal for XState's `invoke` or a query library's mutation.
 
 **Q5. "How do you type actions?"**
-A discriminated union on `type`, with each variant carrying exactly its payload. Every `dispatch` call site is then checked, and `assertNever` in the reducer's default makes adding an action a compile error until handled ([TS L09](../../TypeScript/03-type-level/09-illegal-states-unrepresentable.md)).
+A discriminated union on `type`, with each variant carrying exactly its payload. Every `dispatch` call site is then checked, and `assertNever` in the reducer's default makes adding an action a compile error until handled ([TS L09](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/03-type-level/09-illegal-states-unrepresentable.md)).
 
 **Q6. "Is `dispatch` stable?"**
 Yes — React guarantees the identity never changes, so it's safe in dependency arrays and `memo`'d children without `useCallback`. (And so is `setState` from `useState`, which people often don't realise.)

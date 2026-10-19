@@ -14,7 +14,7 @@
 - **Keep `DECISIONS.md`** as you go — one line per choice, with the reason. At the end you have `docs/architecture.md` for free, and it'll be honest rather than reconstructed.
 - **Commit per phase**, with a message naming what now works. Your git log becomes a narrative you can walk an interviewer through.
 
-> **You need the Ledger API running.** Build [API Phases 0–4](../../API/07-project/29-ledger-build-log.md) first, or point at a mock (MSW with the OpenAPI spec) — but the API is more interesting, and having built both is the stronger story.
+> **You need the Ledger API running.** Build [API Phases 0–4](https://github.com/Pawar-Pratik/API-mastery/blob/main/07-project/29-ledger-build-log.md) first, or point at a mock (MSW with the OpenAPI spec) — but the API is more interesting, and having built both is the stronger story.
 
 ---
 
@@ -31,12 +31,12 @@ npm i -D eslint typescript-eslint eslint-plugin-react-hooks vite-plugin-checker
 ```
 
 **Build:**
-1. `tsconfig.json` with `strict`, **`noUncheckedIndexedAccess`**, **`exactOptionalPropertyTypes`** ([TS L02](../../TypeScript/01-foundations/02-tsconfig-deeply.md)).
-2. `vite-plugin-checker` so type errors appear in the browser overlay — your dev server doesn't type-check ([TS L18](../../TypeScript/05-ecosystem/18-tooling-and-performance.md)).
+1. `tsconfig.json` with `strict`, **`noUncheckedIndexedAccess`**, **`exactOptionalPropertyTypes`** ([TS L02](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/01-foundations/02-tsconfig-deeply.md)).
+2. `vite-plugin-checker` so type errors appear in the browser overlay — your dev server doesn't type-check ([TS L18](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/05-ecosystem/18-tooling-and-performance.md)).
 3. ESLint with `react-hooks` and `@typescript-eslint/strict-type-checked`, plus the feature-boundary `no-restricted-imports` rule ([L16](../04-composition/16-routing-and-architecture.md)).
 4. The folder structure from [Lesson 26 §4](26-console-blueprint.md), with a one-paragraph `README.md` in each top-level directory.
 5. `src/types/` — copy the TypeScript track's shared layer: brands, `Money`, `Result`, the `Payment` union.
-6. `components/ui/` primitives: `Button`, `Badge`, `Input`, `Skeleton` — extending `ComponentPropsWithoutRef` ([TS L17](../../TypeScript/05-ecosystem/17-typescript-with-react.md)).
+6. `components/ui/` primitives: `Button`, `Badge`, `Input`, `Skeleton` — extending `ComponentPropsWithoutRef` ([TS L17](https://github.com/Pawar-Pratik/TypeScript-mastery/blob/main/05-ecosystem/17-typescript-with-react.md)).
 7. Error boundary (`react-error-boundary`) + `AsyncBoundary` pattern ([L15](../04-composition/15-boundaries-suspense-portals.md)).
 
 **Demonstrate:** a page rendering a `Button` and a `Badge`, with a deliberate type error visible in the browser overlay.
