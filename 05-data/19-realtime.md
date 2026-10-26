@@ -318,6 +318,8 @@ function PaymentsTable() {
 
 **That's the architectural payoff:** real-time is a *cache-update mechanism*, not a component concern. No page has real-time code in it; the stream keeps the cache correct and every component that reads the cache benefits automatically. If you find real-time logic in a page component, the integration is at the wrong layer.
 
+> **The other end of the wire:** `/v1/events/stream` is built in the Node track's [real-time servers lesson](https://github.com/Pawar-Pratik/Node-mastery/blob/main/04-networking/20-realtime-servers.md). The `Last-Event-ID` resume, heartbeats, slow-consumer eviction and cross-instance fan-out that this hook relies on are all implemented there. Several of the client-side symptoms in this lesson (events arriving in bursts, missed events after a deploy) are diagnosed on that side.
+
 ---
 
 ## 8. Production rules

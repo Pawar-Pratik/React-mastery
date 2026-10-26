@@ -240,7 +240,7 @@ const [state, formAction, isPending] = useActionState(refundPayment, { status: "
 
 That's [API Lesson 15](https://github.com/Pawar-Pratik/API-mastery/blob/main/03-security/15-authorization-and-multitenancy.md)'s BOLA discussion, applied to a new transport. The vulnerability is identical; only the syntax changed.
 
-**Other practical notes:** actions are serial by default (one at a time per form), arguments must be serializable, and they can't return non-serializable values. `revalidatePath`/`revalidateTag` is how you tell the server cache that data changed — the RSC equivalent of `invalidateQueries` ([Lesson 18](../05-data/18-mutations-and-optimistic.md)).
+**Other practical notes:** actions are serial by default (Next.js dispatches them one at a time per client), arguments must be serializable, and they can't return non-serializable values. `updateTag`, `revalidateTag` and `revalidatePath` are how you tell the server cache that data changed — the RSC equivalent of `invalidateQueries` ([Lesson 18](../05-data/18-mutations-and-optimistic.md)). Which one to call is [Lesson 24](24-nextjs-app-router.md)'s job.
 
 ---
 
@@ -314,7 +314,7 @@ Be honest about this; interviewers respect it and it's genuinely true.
 | **Treat every Server Action as a public HTTP endpoint** | Authenticate, authorize and validate — `"use server"` is transport, not security |
 | **Tenant scope from the session, never from an argument** | Same BOLA rule as any API |
 | **Don't put secrets in files that could become client code** | One `"use client"` upstream changes what ships |
-| **`revalidatePath`/`revalidateTag` after a mutation** | The server-cache equivalent of invalidating a query |
+| **After a mutation, `updateTag` (or `revalidatePath`) so the user sees their own write** | The server-cache equivalent of invalidating a query. `revalidateTag(tag, "max")` serves the old value on the next read |
 | **Keep heavy render-time dependencies on the server** | Markdown, syntax highlighting, i18n data — zero bundle cost |
 | **Don't adopt RSC for a fully-interactive authenticated app** | It's client components with extra ceremony |
 
@@ -347,7 +347,7 @@ Four things: heavy dependencies leave the bundle entirely, data fetching happens
 A fully-interactive authenticated dashboard (almost everything needs state), no server to run, realtime-heavy UIs, or when you already have a good API with a query layer and prefetching. **Say what it costs too:** two component models, a serialization boundary, harder local reasoning, and a server to operate.
 
 **Q9. "How do you invalidate data after a Server Action?"**
-`revalidatePath` or `revalidateTag` — the server-cache equivalent of `invalidateQueries`. Tag-based is finer-grained; path-based is simpler. And if client state also holds that data, you may need both.
+With the server-cache equivalents of `invalidateQueries`, picked by what the user should see next. In Next 16, **`updateTag(tag)`** is the call for the user's own write: it expires the tag, and the action's response carries the re-rendered page. **`revalidateTag(tag, "max")`** is stale-while-revalidate, so the next read still gets the old value: right for a webhook, wrong straight after a refund. **`revalidatePath`** is the simpler path-based option; tags are finer-grained. And if a client query cache also holds that data, invalidate it there too ([Lesson 24](24-nextjs-app-router.md) has the full model).
 
 **Q10. "What's in the RSC payload?"**
 A serialized tree: resolved host elements with props, and references to client components (module id + serialized props) that the browser will hydrate. **Not HTML, and not the server components' code.** It streams, which is what makes Suspense-based progressive rendering work.
@@ -360,7 +360,9 @@ A serialized tree: resolved host elements with props, and references to client c
 ```bash
 npx create-next-app@latest rsc-lab --typescript --app
 ```
-Create a server page that fetches data and renders a client button. Then open the Network panel, find the RSC request (`?_rsc=`), and **read the raw response**. Find: the host elements, the client component reference, its serialized props — and confirm the server component's code isn't there.
+From Next 16.4 this app has **Cache Components** on, so any Server Component in these labs that awaits uncached data (a `fetch`, a database query) needs a `<Suspense>` boundary above it. Without one, the dev overlay flags it and `next build` fails ([Lesson 24 §3](24-nextjs-app-router.md#3-the-four-caches) explains why).
+
+Create a server page with a `<Suspense>` boundary around a Server Component that fetches data and renders a client button, passing it some of that data as props. Then open the Network panel, find the RSC request (`?_rsc=`), and **read the raw response**. Find: the host elements, the client component reference, its serialized props — and confirm the server component's code isn't there.
 
 **That five-minute exercise removes most RSC confusion**, the same way reading a React element object did in [Lesson 01](../01-mental-model/01-how-react-works.md).
 

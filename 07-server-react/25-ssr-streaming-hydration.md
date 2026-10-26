@@ -181,6 +181,40 @@ Time →
 
 **React streams out-of-order.** Each suspended boundary's content is sent when *it* is ready, with a tiny inline script that moves it into place. So a fast section never waits for a slow one, regardless of document order.
 
+### What the server is doing underneath
+Under every framework, streaming SSR is one of two React DOM server APIs, and which one you use depends on the runtime:
+
+```tsx
+// Node: renderToPipeableStream writes into a Node Writable — the HTTP response
+import { renderToPipeableStream } from "react-dom/server";
+
+app.get("/payments", (req, res) => {
+  let failed = false;
+  const { pipe, abort } = renderToPipeableStream(<App url={req.url} />, {
+    bootstrapScripts: ["/client.js"],
+    onShellReady() {                          // shell rendered: commit a status, start streaming
+      res.statusCode = failed ? 500 : 200;
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      pipe(res);
+    },
+    onShellError() {                          // the shell itself threw; nothing sent yet
+      res.statusCode = 500;
+      res.end("<!doctype html><p>Something went wrong</p>");
+    },
+    onError(err) { failed = true; console.error(err); },
+  });
+  const timer = setTimeout(abort, 10_000);    // never hold a socket forever on a hung data source
+  res.on("close", () => { clearTimeout(timer); abort(); });   // client left: stop rendering
+});
+```
+
+- **`renderToPipeableStream` targets Node streams.** `pipe(res)` writes through Node's backpressure (`write()` returning `false`, then `'drain'`), so a slow client doesn't make the server build the whole page as one string. **`renderToReadableStream`** returns a Web `ReadableStream` for Web-standard runtimes (edge workers, Deno, Bun) and for frameworks built on `Request`/`Response`.
+- **`onShellReady` vs `onAllReady`.** Stream on shell-ready for people; wait for `onAllReady` when a crawler needs the complete HTML.
+- **Commit the status code before piping.** After the first byte, a later error can't become a 500. That's why an error inside a Suspense boundary sends that boundary's fallback and lets the client retry, instead of failing the response.
+- **Abort on timeout and on disconnect.** Otherwise a hung query keeps a render and a socket alive for nobody.
+
+That's the Node track's streams material applied to HTML: [backpressure](https://github.com/Pawar-Pratik/Node-mastery/blob/main/03-data-and-io/13-streams-and-backpressure.md) and [client-disconnect handling](https://github.com/Pawar-Pratik/Node-mastery/blob/main/04-networking/17-http-from-scratch.md). Next.js does all of this for you, which is exactly why it's worth seeing once without it.
+
 ### Selective hydration
 The other half, and it's the part that surprises people:
 
@@ -315,6 +349,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 | **No browser APIs at module scope or during render** | They crash SSR outright |
 | **Validate HTML nesting** | The browser silently repairs it, and then the DOM doesn't match |
 | **Stream with Suspense; don't block the page on the slowest query** | The shell is visible immediately |
+| **When you own the server, `abort()` the render on client disconnect and on a timeout** | A hung data source otherwise holds a render and a socket for nobody |
 | **`suppressHydrationWarning` only on a single unavoidable value** | Blanket use hides real bugs |
 | **Prevent the theme flash with a blocking inline script** | React can't know the user's preference before it runs |
 | **Remember the uncanny valley: visible ≠ interactive** | Make the pre-hydration state honest |
