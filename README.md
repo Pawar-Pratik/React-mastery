@@ -3,8 +3,8 @@
 > The goal is not "I can build components."
 > The goal is: **you know exactly why the UI re-rendered, why that effect ran twice, and why the input lost focus** — and you can fix each at the right layer instead of guessing.
 
-**Part of [The Legend Track](https://github.com/Pawar-Pratik/The-Legend-Track)** — the four-track path.
-Sibling tracks: [APIs & REST](https://github.com/Pawar-Pratik/API-mastery) · [TypeScript](https://github.com/Pawar-Pratik/TypeScript-mastery) · [Spring Boot](https://github.com/Pawar-Pratik/SpringBoot)
+**Part of [The Legend Track](https://github.com/Pawar-Pratik/The-Legend-Track)** — the five-track path.
+Sibling tracks: [APIs & REST](https://github.com/Pawar-Pratik/API-mastery) · [TypeScript](https://github.com/Pawar-Pratik/TypeScript-mastery) · [Node.js](https://github.com/Pawar-Pratik/Node-mastery) · [Spring Boot](https://github.com/Pawar-Pratik/SpringBoot)
 
 ---
 
@@ -51,7 +51,7 @@ Internalise those five and React becomes predictable.
 The merchant dashboard for the [Ledger API](https://github.com/Pawar-Pratik/API-mastery), typed with the [TypeScript track's](https://github.com/Pawar-Pratik/TypeScript-mastery) shared layer.
 
 - A payments table over **4M rows** — virtualized, filterable, cursor-paginated, URL-synced
-- A **live payment feed** over SSE
+- A **live payment feed** over SSE, served by the [Node track's](https://github.com/Pawar-Pratik/Node-mastery) Ledger Engine
 - A **refund flow** with optimistic updates and rollback
 - API key management, webhook delivery log with retry
 - Revenue charts, auth with token refresh mid-request, full keyboard and screen-reader support
@@ -71,7 +71,8 @@ Blueprint: **[Ledger Console blueprint](08-project/26-console-blueprint.md)**
 | **TypeScript 5.x, strict** | Non-negotiable. The TS track is a prerequisite |
 | **React DevTools** | **Turn on "Highlight updates when components render"** on day one. It is the single best learning tool here |
 | **TanStack Query** | Module 5 |
-| **Next.js 15** | Module 7 only |
+| **Next.js 16.4+** | Module 7 only. [Lesson 24](07-server-react/24-nextjs-app-router.md) teaches 16's Cache Components caching model, which `create-next-app` turns on from 16.4, with notes where 15 differs. 16 also renamed `middleware.ts` to `proxy.ts` and runs it on the Node.js runtime |
+| **Node 24 LTS or newer** | The dev servers and Module 7's SSR run on it. The [Node.js track](https://github.com/Pawar-Pratik/Node-mastery) explains what the server is doing |
 
 > **The habit that matters most:** keep the DevTools Profiler open and *look* at what re-rendered. People who become fluent in React are people who watch the render highlights constantly; people who stay stuck reason about it in their heads.
 
